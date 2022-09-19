@@ -1,0 +1,39 @@
+Wallet1 : a2c20c77887ace1cd986193e4e75babd8993cfd56995cd5cfce609c2
+Wallet2 : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+Wallet3 : 2e0ad60c3207248cecd47dbde3d752e0aad141d6b8f81ac2c6eca27c
+
+1596059092999 (Current Time)
+1596059101000 (+10 slot)
+1596059111000 (+20 slot)
+1596059121000 (+30 slot)
+
+
+Data Sample For Testing :
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : jakarta
+deliveryDestination : SURABAYA
+weight_kg : 2
+receiptNumber : 123987
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : MEDAN
+deliveryDestination : DENPASAR
+weight_kg : 5
+receiptNumber : 343647
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : BANDUNG
+deliveryDestination : jakarta
+weight_kg : 10
+receiptNumber : 3436477
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : JAKARTA
+deliveryDestination : DENPASAR
+weight_kg : 5
+receiptNumber : 3436477
