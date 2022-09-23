@@ -1,3 +1,49 @@
+{----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- READ ME --
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+This smart contract is used for payment on delivery / logistics / courier services. The steps for using this smart contract are as follows:
+1. Enter the paymentAddress of the shipping service agency.
+2. Enter the deliveryDeadline in POSIX-time format. In this simulation the current time is Wednesday, July 29, 2020 9:44:52.999 PM GMT (POSIX-time : 1596059092999). 
+   For example the deadline have been set at  Wednesday, July 29, 2020 9:45:01 PM (POSIX-time : 1596059101000) 
+   then the transaction from wallet-1 (Customer) to wallet-2 (Shipping Delivery) will be successful if the timeslot is greater than or equal 10 seconds in simulation.
+3. Enter deliveryStart location / city where the stuffs will depart for delivery and then enter deliveryDestination location / city where the stuff will arrive.
+4. Enter the weight_kg with number. It is the weight of the stuff that will be deliver. 
+   The final calculation for payment can be calculated by the following formula, Payment = (1000000 Lovelace * weight_kg + shippingCost)
+5. The last step is to enter the receiptNumber in the form of a random number for example 2352536646. 
+   receiptNumber will be a confirmation along with paymentAddress, and deliveryDeadline as a datum parameter that will be validated in onchain.
+
+Data Sample For Testing :
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : jakarta
+deliveryDestination : SURABAYA
+weight_kg : 2
+receiptNumber : 123987
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : MEDAN
+deliveryDestination : DENPASAR
+weight_kg : 5
+receiptNumber : 343647
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : BANDUNG
+deliveryDestination : jakarta
+weight_kg : 10
+receiptNumber : 3436477
+
+paymentAddress : 80a4f45b56b88d1139da23bc4c3c75ec6d32943c087f250b86193ca7
+deliveryDeadline : 1596059101000
+deliveryStart : JAKARTA
+deliveryDestination : DENPASAR
+weight_kg : 5
+receiptNumber : 3436477
+----------------------------------------------------------------------------------------------------------------------------------------------------------------}
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- LIBRARY
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,7 +88,7 @@ import           Data.Char
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ONCHAIN
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-data DeliveryDatum = DeliveryDatum
+data DeliveryDatum = DeliveryDatum -- ONCHAIN VALIDATION DATUM PARAMETER : paymentAddress, deliveryDeadline, receiptNumber
     { paymentAddress'   :: PaymentPubKeyHash
     , deliveryDeadline' :: POSIXTime
     , receiptNumber'    :: Integer
@@ -116,7 +162,7 @@ payment pp = do
                 }
     let start = deliveryStart pp
     let destination = deliveryDestination pp
-    let route = shippingroute (fmap toUpper start) (fmap toUpper destination)
+    let route = shippingroute (fmap toUpper start) (fmap toUpper destination)  -- Input deliveryStart and deliveryDestination is not case sensitive because UpperCase function
     let tx  = Constraints.mustPayToTheScript datum $ Ada.lovelaceValueOf $ (price * weight_Kg pp) + route
     ledgerTx <- submitTxConstraints typedValidator tx
     void $ awaitTxConfirmed $ getCardanoTxId ledgerTx
